@@ -1,5 +1,23 @@
 # Bird Species Identification
 
+## Setup
+
+### Windows
+
+1. Install Python if it is not already installed.
+2. Open the project folder.
+3. Run `setup.bat`. It creates the `.venv` virtual environment and installs the pinned dependencies from `requirements.txt`.
+4. In VS Code, open the notebooks and choose the project's `.venv` Python kernel.
+5. Ensure the four prepared input files listed below are present locally.
+6. Run `notebooks/prepare_bird_species_data.ipynb` first to create the processed train/test CSV files.
+7. Then run all cells in `notebooks/train_bird_species_models.ipynb`. This trains the four classifiers and generates `naive_bayes.pkl`, `random_forest.pkl`, `svm_rbf.pkl`, and `logistic_regression.pkl` in `models/`, along with the comparison results in `results/`.
+
+The notebooks use the environment created by `setup.bat`; they do not create another environment. To activate it later in Command Prompt, run:
+
+```bat
+.venv\Scripts\activate
+```
+
 This project prepares bird-attribute annotations for machine learning, splits the data into training and test sets, trains four classifiers, and compares baseline accuracy with PCA and feature-selection methods.
 
 ## Dataset summary
@@ -63,24 +81,6 @@ The root `.gitignore` is set up to:
 - Ignore trained files in `models/` while preserving `models/.gitkeep`.
 
 Git does not track empty directories by itself. The `.gitkeep` files are empty placeholders; they are not datasets or trained models. Since the raw inputs are not uploaded, provide the prepared files in `data/separated_actual_data_required/` locally before running the preparation notebook. The notebooks do not use `CUB_200_2011/`.
-
-## Setup
-
-### Windows
-
-1. Install Python if it is not already installed.
-2. Open the project folder.
-3. Run `setup.bat`. It creates the `.venv` virtual environment and installs the pinned dependencies from `requirements.txt`.
-4. In VS Code, open the notebooks and choose the project's `.venv` Python kernel.
-5. Ensure the four prepared input files listed above are present locally.
-6. Run `notebooks/prepare_bird_species_data.ipynb` first to create the processed train/test CSV files.
-7. Then run all cells in `notebooks/train_bird_species_models.ipynb`. This trains the four classifiers and generates `naive_bayes.pkl`, `random_forest.pkl`, `svm_rbf.pkl`, and `logistic_regression.pkl` in `models/`, along with the comparison results in `results/`.
-
-The notebooks use the environment created by `setup.bat`; they do not create another environment. To activate it later in Command Prompt, run:
-
-```bat
-.venv\Scripts\activate
-```
 
 ## Prepare the data
 
