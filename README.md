@@ -1,34 +1,36 @@
 # Bird Species Identification
 
-This project prepares bird-attribute annotations as a machine-learning dataset, trains four classifiers, and compares their accuracy with PCA and feature-selection variants.
+This project prepares bird-attribute annotations for machine learning, splits the data into training and test sets, trains four classifiers, and compares baseline accuracy with PCA and feature-selection methods.
 
-## Dataset at a glance
+## Dataset summary
 
 - **11,788 images**
 - **200 bird species**
 - **312 binary attributes per image**
 
-The project workflow reads the prepared files under `data/separated_actual_data_required/`. It does not need or use a separate `CUB_200_2011` directory.
+The notebooks use only the prepared files in `data/separated_actual_data_required/`. They do not read or require `data/CUB_200_2011/`. GitHub will contain only a folder marker for `CUB_200_2011/`; any local contents remain ignored.
 
-## What do the classes and 312 features mean?
+## Classes and attributes
 
-Each image has a numeric species label called a **class ID**. A class ID is a category identifier, not an image number or an accuracy score. For example, **class 1** maps to `001.Black_footed_Albatross` in this project's `class_names.txt`; the notebook checks the class-name mapping rather than treating the number as the species name.
+Each image has a numeric **class ID** identifying its bird species. Class IDs are categories, not image IDs. For example, **class 1** maps to `001.Black_footed_Albatross` in `class_names.txt`. The notebooks keep these one-based IDs in the target vectors.
 
-The 312 features are bird attributes, not image pixels. Their names are listed in `features/feature_names.txt`. The feature matrix has one row per image and one column per attribute:
+The 312 features are semantic bird attributes, not image pixels. The attribute ID maps to its readable name in `feature_names.txt`:
 
-| Matrix entry | Meaning |
+| Feature value | Meaning |
 | --- | --- |
 | `X[i, j] = 1` | Attribute `j` is present for image `i` |
 | `X[i, j] = 0` | Attribute `j` is not present for image `i` |
 
-Use the attribute ID to look up the human-readable name in `feature_names.txt` (equivalent to the source dataset's `attributes.txt`). For example, the notebook reports the first features as bill-shape attributes.
+Examples of attribute names include bill-shape properties such as `has_bill_shape::dagger` and `has_bill_shape::hooked`.
 
-## Input files
+## Data files
 
-The input files expected by the notebooks are:
+The preparation notebook expects the following files locally:
 
 ```text
 data/
+├── CUB_200_2011/                 # unused placeholder; no contents required
+├── processed/                    # generated train/test CSV files
 └── separated_actual_data_required/
     ├── features/
     │   ├── image_features.txt
@@ -38,55 +40,84 @@ data/
         └── class_names.txt
 ```
 
-The corresponding source dataset files use these concepts and names:
+The prepared filenames correspond to these source-dataset concepts:
 
-| Source file | Information represented | Prepared project file |
+| Source dataset file | Information | Prepared project file |
 | --- | --- | --- |
-| `attributes/image_attribute_labels.txt` | Image ID, attribute ID, whether the attribute is present, and annotation metadata such as certainty/time when available | `features/image_features.txt` |
+| `attributes/image_attribute_labels.txt` | Image ID, attribute ID, presence value, and annotation metadata such as certainty/time | `features/image_features.txt` |
 | `attributes/attributes.txt` | Attribute ID to attribute name | `features/feature_names.txt` |
 | `image_class_labels.txt` | Image ID to numeric class ID | `labels/image_labels.txt` |
 | `classes.txt` | Class ID to species name | `labels/class_names.txt` |
 
-The project expects the prepared filenames and folder layout shown above. `image_features.txt` records at least `image_id`, `attribute_id`, and `is_present`; if a record has additional columns, the preparation notebook uses the first three fields for the binary matrix. `image_labels.txt` has an image ID and a one-based class ID. Thus, `y[i] = 1` means the image at row `i` belongs to class 1; use `class_names.txt` to find its species name.
+The actual prepared `image_features.txt` rows contain at least `image_id`, `attribute_id`, and `is_present`; they may also include certainty and time fields. The preparation notebook uses the first three fields to build `X`. It combines repeated judgments for an image/attribute pair using a majority vote; ties count as present. Certainty/time fields are not used to weight the feature values.
 
-Annotations can contain multiple judgments for the same image/attribute pair. The preparation notebook combines them by majority vote; ties count as present.
+`image_labels.txt` contains an image ID and a one-based class ID. `class_names.txt` maps each class ID to its species name. For example, `y[i] = 1` means that row belongs to class 1; look up class 1 in `class_names.txt` to get `001.Black_footed_Albatross`.
 
-## Data preparation and split
+## GitHub data policy
 
-Open `notebooks/prepare_bird_species_data.ipynb` and run all cells in order. It builds:
+The root `.gitignore` is set up to:
 
-```text
-X = (11788, 312)   # binary attributes
-y = (11788,)       # one-based species class IDs
-```
+- Allow `data/processed/` and its train/test CSVs to be committed.
+- Ignore the contents of `data/CUB_200_2011/` and `data/separated_actual_data_required/`.
+- Keep `.gitkeep` placeholders so the dataset directory names, and the `features/` and `labels/` subdirectory names, can appear in GitHub without uploading their contents.
+- Ignore trained files in `models/` while preserving `models/.gitkeep`.
 
-It then makes a reproducible, stratified 70/30 train/test split (`random_state=42`) and saves the arrays as CSV files:
-
-| File | Shape | Contents |
-| --- | ---: | --- |
-| `data/processed/X_train.csv` | `(8251, 312)` | Training attributes |
-| `data/processed/X_test.csv` | `(3537, 312)` | Testing attributes |
-| `data/processed/y_train.csv` | `(8251,)` | Training class IDs |
-| `data/processed/y_test.csv` | `(3537,)` | Testing class IDs |
-
-For every split, row `i` of `X_train` corresponds to `y_train[i]` (and likewise for the test split). The class IDs remain one-based to match the provided label files.
+Git does not track empty directories by itself. The `.gitkeep` files are empty placeholders; they are not datasets or trained models. Since the raw inputs are not uploaded, provide the prepared files in `data/separated_actual_data_required/` locally before running the preparation notebook. The notebooks do not use `CUB_200_2011/`.
 
 ## Setup
 
-On Windows, run `setup.bat` from the project folder. It creates the project's `.venv` and installs packages listed in `requirements.txt`. In VS Code, select the `.venv` Python kernel for both notebooks. The notebooks use this environment; they do not create another one.
+### Windows
 
-## Model training and comparison
+1. Install Python if it is not already installed.
+2. Open the project folder.
+3. Run `setup.bat`. It creates the `.venv` virtual environment and installs the pinned dependencies from `requirements.txt`.
+4. In VS Code, open the notebooks and choose the project's `.venv` Python kernel.
+5. Ensure the four prepared input files listed above are present locally.
 
-After preparing the data, open `notebooks/train_bird_species_models.ipynb` and run its cells in order. It trains:
+The notebooks use the environment created by `setup.bat`; they do not create another environment. To activate it later in Command Prompt, run:
+
+```bat
+.venv\Scripts\activate
+```
+
+## Prepare the data
+
+Open `notebooks/prepare_bird_species_data.ipynb` and run its cells in order. It reads the prepared input directory and creates:
+
+```text
+X = (11788, 312)   # images by binary bird attributes
+y = (11788,)       # one-based bird species IDs
+```
+
+It uses a reproducible, stratified 70/30 split with `random_state=42`:
+
+| Array/file | Shape | Contents |
+| --- | ---: | --- |
+| `X_train` / `data/processed/X_train.csv` | `(8251, 312)` | Training attributes |
+| `X_test` / `data/processed/X_test.csv` | `(3537, 312)` | Test attributes |
+| `y_train` / `data/processed/y_train.csv` | `(8251,)` | Training species IDs |
+| `y_test` / `data/processed/y_test.csv` | `(3537,)` | Test species IDs |
+
+The CSV files contain no header or row index. Each label remains aligned with the corresponding feature row.
+
+## Train and compare models
+
+After creating the processed CSV files, open `notebooks/train_bird_species_models.ipynb` and run all cells in order. The notebook trains:
 
 - Bernoulli Naive Bayes
 - Random Forest
 - SVM with an RBF kernel
 - Logistic Regression
 
-The final comparison table includes baseline training and testing accuracy, plus test accuracy for PCA, feature selection, and feature selection followed by PCA. PCA retains 95% of the training-data variance. Feature selection keeps the 100 highest-scoring attributes using chi-square. Transformations are fit on the training split only, then applied to the test split. The certainty-metric column from the example table is not included.
+The comparison table reports baseline training and test accuracy, and test accuracy using:
 
-Latest recorded accuracy results (proportions are rounded to percentages):
+- **PCA:** retain 95% of variance.
+- **Feature selection:** select the 100 highest-scoring attributes using chi-square.
+- **PCA + Feature Selection:** select 100 attributes, then apply PCA retaining 95% of variance.
+
+The transformations are fitted using training data only and then applied to the held-out test data. The certainty-metric column from the reference table is not included. Baseline classification reports and F1/runtime metrics are also saved.
+
+Latest recorded accuracy results:
 
 | Method | Training Accuracy | Testing Accuracy | Using PCA | Using Feature Selection | Using PCA + Feature Selection |
 | --- | ---: | ---: | ---: | ---: | ---: |
@@ -95,22 +126,29 @@ Latest recorded accuracy results (proportions are rounded to percentages):
 | SVM (RBF) | 86.30% | 49.93% | 48.94% | 39.78% | 38.90% |
 | Logistic Regression | 92.66% | 50.64% | 49.45% | 41.65% | 40.77% |
 
-These values are the results of the current saved data split and model settings; rerunning the notebook recomputes and replaces the result files.
+These values are actual results from the current saved split and model settings, not targets or hard-coded predictions. Running the notebook again recalculates and replaces the result files. For Bernoulli Naive Bayes, PCA produces continuous-valued components that the estimator treats as Bernoulli inputs; interpret that PCA comparison cautiously.
 
-## Generated files
+## Generated outputs
 
 ```text
+data/processed/
+├── X_train.csv
+├── X_test.csv
+├── y_train.csv
+└── y_test.csv
+
 models/
-├── naive_bayes.pkl
-├── random_forest.pkl
-├── svm_rbf.pkl
-└── logistic_regression.pkl
+├── .gitkeep
+├── naive_bayes.pkl              # generated locally; ignored by Git
+├── random_forest.pkl            # generated locally; ignored by Git
+├── svm_rbf.pkl                  # generated locally; ignored by Git
+└── logistic_regression.pkl      # generated locally; ignored by Git
 
 results/
-├── model_results.csv
-├── model_metrics.csv
-├── accuracy_comparison.png
-└── classification_reports.txt
+├── model_results.csv            # final accuracy comparison table
+├── model_metrics.csv            # baseline F1 scores and runtime metrics
+├── accuracy_comparison.png      # accuracy chart
+└── classification_reports.txt   # baseline per-class reports
 ```
 
-`model_results.csv` stores the final accuracy comparison table. `model_metrics.csv` stores baseline F1 scores and runtime measurements. The classification reports are for baseline models. The Random Forest pickle is large (about 2.8 GB). Load pickle files only from trusted sources and use a compatible scikit-learn environment.
+The Random Forest pickle is about 2.8 GB and is intentionally not included in Git. Pickle files should only be loaded from trusted sources and require a compatible Python/scikit-learn environment.
