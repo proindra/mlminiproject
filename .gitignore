@@ -28,8 +28,9 @@ __pycache__/
 !/data/separated_actual_data_required/features/.gitkeep
 !/data/separated_actual_data_required/labels/.gitkeep
 
-# Trained model files (the Random Forest pickle is several gigabytes)
-/models/*.pkl
+# Ignore trained model files but keep the models folder in Git
+/models/*
+!/models/.gitkeep
 
 # Local environment and editor files
 .env
