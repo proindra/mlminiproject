@@ -5,27 +5,20 @@
 ### Windows
 
 1. Install Python if it is not already installed.
-2. Clone or open the project folder.
-3. Extract the provided `data.zip` file and place its contents in the required directories according to the project structure below.
-4. **Open the project folder in VS Code.**
-5. Run `setup.bat`. It automatically creates the `.venv` virtual environment and installs the required dependencies from `requirements.txt`.
-6. Open the notebooks from the `notebooks/` directory and select the project's `.venv` Python kernel.
-7. Ensure the four prepared input files from `data.zip` are present in the required directories.
-8. Run `notebooks/prepare_bird_species_data.ipynb` first. This creates the processed train/test CSV files in `data/processed/`.
-9. Then run all cells in `notebooks/train_bird_species_models.ipynb`. This trains the four classifiers and generates these model files in `models/`:
+2. Clone or open the `mlminiproject` project folder.
+3. Extract the provided `data.zip` file and place its contents according to the **project structure below**.
+4. **Open the `mlminiproject` folder in VS Code.**
+5. In VS Code, go to **Terminal → New Terminal**. Make sure the terminal is opened in the `mlminiproject` folder.
+6. Run the following command in the terminal:
 
-   - `naive_bayes.pkl`
-   - `random_forest.pkl`
-   - `svm_rbf.pkl`
-   - `logistic_regression.pkl`
+   ```bat
+   setup.bat
+   ```
 
-   The training notebook also generates the model comparison and evaluation results in `results/`.
-
-The notebooks use the environment created by `setup.bat`; they do not create another environment. To activate it later in Command Prompt, run:
-
-```bat
-.venv\Scripts\activate
-```
+   This automatically creates the `.venv` virtual environment and installs all required dependencies from `requirements.txt`.
+7. Open the notebooks from the `notebooks` directory and select the `.venv` Python kernel.
+8. Run `prepare_bird_species_data.ipynb` first. This creates the processed train/test CSV files in `data/processed/`.
+9. Then run all cells in `train_bird_species_models.ipynb`. This trains the four classifiers and generates the model files in `models/` and evaluation results in `results/`.
 
 ### Project Structure
 
