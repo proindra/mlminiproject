@@ -1,0 +1,44 @@
+# Python virtual environments
+.venv/
+venv/
+env/
+
+# Python bytecode and test/tool caches
+__pycache__/
+*.py[cod]
+*$py.class
+.pytest_cache/
+.mypy_cache/
+.ruff_cache/
+
+# Jupyter-generated files
+.ipynb_checkpoints/
+
+# Ignore all data by default; include processed CSVs and dataset-folder markers
+/data/*
+!/data/processed/
+!/data/CUB_200_2011/
+!/data/separated_actual_data_required/
+/data/CUB_200_2011/**
+/data/separated_actual_data_required/**
+!/data/CUB_200_2011/.gitkeep
+!/data/separated_actual_data_required/.gitkeep
+!/data/separated_actual_data_required/features/
+!/data/separated_actual_data_required/labels/
+!/data/separated_actual_data_required/features/.gitkeep
+!/data/separated_actual_data_required/labels/.gitkeep
+
+# Trained model files (the Random Forest pickle is several gigabytes)
+/models/*.pkl
+
+# Local environment and editor files
+.env
+.env.*
+!.env.example
+.vscode/
+.idea/
+
+# Operating-system files
+.DS_Store
+Thumbs.db
+Desktop.ini
