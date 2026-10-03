@@ -14,19 +14,8 @@ __pycache__/
 # Jupyter-generated files
 .ipynb_checkpoints/
 
-# Ignore all data by default; include processed CSVs and dataset-folder markers
-/data/*
-!/data/processed/
-!/data/CUB_200_2011/
-!/data/separated_actual_data_required/
-/data/CUB_200_2011/**
-/data/separated_actual_data_required/**
-!/data/CUB_200_2011/.gitkeep
-!/data/separated_actual_data_required/.gitkeep
-!/data/separated_actual_data_required/features/
-!/data/separated_actual_data_required/labels/
-!/data/separated_actual_data_required/features/.gitkeep
-!/data/separated_actual_data_required/labels/.gitkeep
+# Ignore the entire local data directory, including datasets and processed CSVs
+/data/
 
 # Ignore trained model files but keep the models folder in Git
 /models/*

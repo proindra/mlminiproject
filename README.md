@@ -18,6 +18,44 @@ The notebooks use the environment created by `setup.bat`; they do not create ano
 .venv\Scripts\activate
 ```
 
+## Project structure
+
+```text
+Bird-Species-Identification/
+├── data/                              # local only; entirely ignored by Git
+│   ├── separated_actual_data_required/ # provide these inputs locally
+│   │   ├── features/
+│   │   │   ├── image_features.txt
+│   │   │   └── feature_names.txt
+│   │   └── labels/
+│   │       ├── image_labels.txt
+│   │       └── class_names.txt
+│   └── processed/                     # generated locally by preparation notebook
+│       ├── X_train.csv
+│       ├── X_test.csv
+│       ├── y_train.csv
+│       └── y_test.csv
+├── models/                            # generated locally; model files ignored by Git
+│   ├── naive_bayes.pkl
+│   ├── random_forest.pkl
+│   ├── svm_rbf.pkl
+│   └── logistic_regression.pkl
+├── notebooks/
+│   ├── prepare_bird_species_data.ipynb
+│   └── train_bird_species_models.ipynb
+├── results/
+│   ├── model_results.csv
+│   ├── model_metrics.csv
+│   ├── accuracy_comparison.png
+│   └── classification_reports.txt
+├── .gitignore
+├── README.md
+├── requirements.txt
+└── setup.bat
+```
+
+The `data/` directory and its contents are not uploaded to GitHub. Create the local data folders and place the four prepared input files there before running the notebooks. The trained `.pkl` files are also generated locally and ignored by Git.
+
 This project prepares bird-attribute annotations for machine learning, splits the data into training and test sets, trains four classifiers, and compares baseline accuracy with PCA and feature-selection methods.
 
 ## Dataset summary
@@ -26,7 +64,7 @@ This project prepares bird-attribute annotations for machine learning, splits th
 - **200 bird species**
 - **312 binary attributes per image**
 
-The notebooks use only the prepared files in `data/separated_actual_data_required/`. They do not read or require `data/CUB_200_2011/`. GitHub will contain only a folder marker for `CUB_200_2011/`; any local contents remain ignored.
+The notebooks use only the prepared files in `data/separated_actual_data_required/`. They do not read or require `data/CUB_200_2011/`. Neither directory nor any other content inside `data/` is included in GitHub.
 
 ## Classes and attributes
 
@@ -73,14 +111,7 @@ The actual prepared `image_features.txt` rows contain at least `image_id`, `attr
 
 ## GitHub data policy
 
-The root `.gitignore` is set up to:
-
-- Allow `data/processed/` and its train/test CSVs to be committed.
-- Ignore the contents of `data/CUB_200_2011/` and `data/separated_actual_data_required/`.
-- Keep `.gitkeep` placeholders so the dataset directory names, and the `features/` and `labels/` subdirectory names, can appear in GitHub without uploading their contents.
-- Ignore trained files in `models/` while preserving `models/.gitkeep`.
-
-Git does not track empty directories by itself. The `.gitkeep` files are empty placeholders; they are not datasets or trained models. Since the raw inputs are not uploaded, provide the prepared files in `data/separated_actual_data_required/` locally before running the preparation notebook. The notebooks do not use `CUB_200_2011/`.
+The root `.gitignore` excludes the entire `data/` directory. No datasets, processed CSVs, directory names, or `.gitkeep` placeholders inside `data/` are included in GitHub. Supply the four prepared input files locally before running the preparation notebook. The notebooks do not use `CUB_200_2011/`.
 
 ## Prepare the data
 
@@ -100,7 +131,7 @@ It uses a reproducible, stratified 70/30 split with `random_state=42`:
 | `y_train` / `data/processed/y_train.csv` | `(8251,)` | Training species IDs |
 | `y_test` / `data/processed/y_test.csv` | `(3537,)` | Test species IDs |
 
-The CSV files contain no header or row index. Each label remains aligned with the corresponding feature row.
+The CSV files contain no header or row index. Each label remains aligned with the corresponding feature row. These generated CSVs stay local because the entire `data/` directory is ignored by Git.
 
 ## Train and compare models
 
@@ -133,11 +164,16 @@ These values are actual results from the current saved split and model settings,
 ## Generated outputs
 
 ```text
-data/processed/
-├── X_train.csv
-├── X_test.csv
-├── y_train.csv
-└── y_test.csv
+data/                            # local only; entirely ignored by Git
+├── processed/
+│   ├── X_train.csv
+│   ├── X_test.csv
+│   ├── y_train.csv
+│   └── y_test.csv
+├── CUB_200_2011/                # local placeholder/data; not used by notebooks
+└── separated_actual_data_required/
+    ├── features/
+    └── labels/
 
 models/
 ├── .gitkeep
