@@ -73,6 +73,8 @@ Git does not track empty directories by itself. The `.gitkeep` files are empty p
 3. Run `setup.bat`. It creates the `.venv` virtual environment and installs the pinned dependencies from `requirements.txt`.
 4. In VS Code, open the notebooks and choose the project's `.venv` Python kernel.
 5. Ensure the four prepared input files listed above are present locally.
+6. Run `notebooks/prepare_bird_species_data.ipynb` first to create the processed train/test CSV files.
+7. Then run all cells in `notebooks/train_bird_species_models.ipynb`. This trains the four classifiers and generates `naive_bayes.pkl`, `random_forest.pkl`, `svm_rbf.pkl`, and `logistic_regression.pkl` in `models/`, along with the comparison results in `results/`.
 
 The notebooks use the environment created by `setup.bat`; they do not create another environment. To activate it later in Command Prompt, run:
 
