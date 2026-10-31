@@ -1,4 +1,6 @@
-﻿# Bird Species Identification — Smart Bird Recognition
+<div align="center">
+
+# Bird Species Identification — Smart Bird Recognition
 
 Bird species classification powered by structured binary attributes and classic machine learning models.
 
@@ -8,6 +10,8 @@ Bird species classification powered by structured binary attributes and classic 
 ![Jupyter](https://img.shields.io/badge/Jupyter-Notebook-F37626?style=for-the-badge&logo=jupyter)
 
 This project builds a bird-species classifier using 312 binary bird attributes per image. The dataset is already clean and ready to use, and no additional data-science preprocessing was performed beyond preparing the feature matrix and label vectors for model training and evaluation.
+
+</div>
 
 The pipeline includes:
 
