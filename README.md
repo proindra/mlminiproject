@@ -185,6 +185,12 @@ The current recorded results are:
 
 The best baseline performance in the saved results is from Logistic Regression, with about 50.64% test accuracy.
 
+### Accuracy Comparison
+
+<div align="center">
+  <img src="results/accuracy_comparison.png" alt="Test accuracy comparison across models and feature-processing methods" width="900">
+</div>
+
 ## Generated Output Files
 
 After training, the project saves the following artifacts:
