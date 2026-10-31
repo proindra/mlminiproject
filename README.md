@@ -1,15 +1,15 @@
 <div align="center">
 
-# Bird Species Identification — Smart Bird Recognition
+# Bird Species Identification — CS 229 Project Replication
 
-Bird species classification powered by structured binary attributes and classic machine learning models.
+A replication of the Stanford CS 229 course project report, “Bird Species Identification from an Image.”
 
 ![Python](https://img.shields.io/badge/Python-3.10%2B-3776AB?style=for-the-badge&logo=python)
 ![scikit-learn](https://img.shields.io/badge/scikit--learn-1.5%2B-F7931E?style=for-the-badge&logo=scikit-learn)
 ![Pandas](https://img.shields.io/badge/Pandas-2.0%2B-150458?style=for-the-badge&logo=pandas)
 ![Jupyter](https://img.shields.io/badge/Jupyter-Notebook-F37626?style=for-the-badge&logo=jupyter)
 
-This project builds a bird-species classifier using 312 binary bird attributes per image. The dataset is already clean and ready to use, and no additional data-science preprocessing was performed beyond preparing the feature matrix and label vectors for model training and evaluation.
+This project follows the report's goal of using machine learning to quantify bird-species descriptions for identification. It uses 312 prepared binary bird attributes per image with classical machine learning models. The dataset is already clean and ready to use; no additional data cleaning or exploratory data-science preprocessing was performed beyond preparing the feature matrix and label vectors for model training and evaluation.
 
 </div>
 
